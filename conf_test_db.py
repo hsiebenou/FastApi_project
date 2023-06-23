@@ -11,8 +11,8 @@ from app.main import app
 logger = start_logger(config)
 logger.info(msg="Database initialisation!")
 
-#connection_string = "postgresql://root:password@pg_test:5433/database2"
-connection_string = "postgresql://root:password@posgres:5433/database2"
+#connection_string = "postgresql://root:password@pg_test:5433/database2"  : pour docker
+connection_string = "postgresql://root:password@posgres:5433/database2"  #: pour les tests unit
 
 engine = create_engine(connection_string)
 TestingSessionLocal = sessionmaker(
