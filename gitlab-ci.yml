@@ -1,0 +1,42 @@
+# -------------------------------------------------- code quality ------------------------------------------
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  variables:
+    CODE_QUALITY_IMAGE: codeclimate/codeclimate:latest
+
+
+# -------------------------------------------------- stage --------------------------------------------------
+stages:
+    - test
+
+# -------------------------------------------------- test unitaire ------------------------------------------
+sku-api-unit-tests:
+  stage: test
+  image: python:3.10
+  tags:
+    - my_sku
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    POSTGRES_USER_TEST: root
+    POSTGRES_DB_TEST: database2
+    POSTGRES_PASSWORD_TEST: password
+    POSTGRES_HOST_TEST: postgres
+    POSTGRES_PORT_TEST: 5432
+    POSTGRES_DB: database
+    POSTGRES_PASSWORD: password
+    POSTGRES_USER: root
+    POSTGRES_HOST: postgres
+    POSTGRES_PORT: 5433
+    
+  services:
+    - name: postgres:13
+      alias: postgres
+  script:
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - pip install pytest pytest-cov requests-mock
+    - export PYTHONPATH=.
+    - pytest tests/ --cov=app     
