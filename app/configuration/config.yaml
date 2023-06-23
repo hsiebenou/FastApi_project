@@ -1,0 +1,22 @@
+# General information
+api_service_name: 'My SKU'
+api_version: v1.0.0
+api_version_server: 2.1.0
+
+database_connection_string: postgresql://root:password@pg:5432/database
+
+
+# account credentials
+secret_key: 09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+algorithm: HS256
+acces_token_expire_minutes: 20
+version: 1.0
+api:
+  user: xavier@princinhup.net
+  password: xavier
+  admin: true
+
+log:
+  environment: development
+  app_name: SKU
+  level: 20

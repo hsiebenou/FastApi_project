@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  pg:
+    restart: always
+    image: postgres:11.6-alpine
+    container_name: pg-api-app-ctnr
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "database"
+    volumes:
+       - ./.docker-data/pg:/var/lib/postgresql/data
+  pg_test:
+    restart: always
+    image: postgres:11.6-alpine
+    container_name: pg-api-test-ctnr
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "database2"
+
+
+  sku_api:
+     image: sku_api:1.0
+     restart: always
+     build: .
+     container_name: sku-api-ctnr
+     command: gunicorn app.main:app --bind 0.0.0.0:80 -w 2 -k uvicorn.workers.UvicornWorker
+     ports:
+       - "8000:80"
+     depends_on:
+       - pg
